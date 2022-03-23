@@ -53,12 +53,12 @@ window.addEventListener('load', () => {
 
             // CALLING API
 
-            fetch(currentLocationWeatherAPI)
+            fetch(currentLocationWeatherAPI + idAPI)
                 .then((response) => {
                     return response.json();
                 })
                 .then((data) => {
-                    console.log(data);
+                    console.log(temperature);
                     '.temperature'.textContent =
                         Math.floor(data.main.temperature - kelvin) + '°C';
                     sum.textContent = data.weather[0].description;
