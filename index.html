@@ -6,29 +6,29 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weather Dashboard</title>
-    <script src="script.js" defer></script>
 </head>
 
 <body>
-
-
     <div>
         <input id='locationSearch' />
         <button id='searchBtn'>search</button>
 
-        <div class='container'>
-            <div class='icon'></div>
-            <div class='temperature'></div>
-            <div class='sum'></div>
-            <div class='location'></div>
-            <div class='wind-speed'></div>
-            <div class='humidity'></div>
-            <div class="UVI"></div>
+        <div id='weatherCurrent' class='weatherCurrent'></div>
+        <div id='weatherFiveDay' class='weatherFiveDay'></div>
+    </div>
 
-
+    <div id="weatherTemplate" class="weatherTemplate">
+        <div class="weatherDetail">
+            <div id='icon' class='icon'></div>
+            <div id='temperature' class='temperature'></div>
+            <div id='sum' class='sum'></div>
+            <div id='class' class='location'></div>
+            <div id='windSpeed' class='windSpeed'></div>
+            <div id='humidity' class='humidity'></div>
+            <div id='UVI' class="UVI"></div>
         </div>
+    </div>
 
-
+    <script src="script.js" defer></script>
 </body>
-
 </html>

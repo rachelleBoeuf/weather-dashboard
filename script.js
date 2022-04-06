@@ -1,19 +1,26 @@
 // Search Bar and Button
 var searchBtn = document.getElementById('searchBtn');
-let temperature = document.querySelector('.temperature');
-let sum = document.querySelector('.sum');
-let loc = document.querySelector('.location');
-let icon = document.querySelector('.icon');
-let windSpeed = document.querySelector('.wind-speed');
-let humidity = document.querySelector('.humidity');
-let UVI = document.querySelector('.UVI');
+const weatherApiKey = '01491020703a0729a1904f9d2453e6f1';
+const weatherTemplate = document.getElementById('weatherTemplate');
+const weatherCurrent = document.getElementById('weatherCurrent');
+const weatherFiveDay = document.getElementById('weatherFiveDay');
+const weatherDaysToForcast = 5;
 
-const weekdayWeatherDisplay = document.querySelector('weekdayWeatherDisplay');
+//let temperature = document.querySelector('.temperature');
+//let sum = document.querySelector('.sum');
+//let loc = document.querySelector('.location');
+//let icon = document.querySelector('.icon');
+//let windSpeed = document.querySelector('.wind-speed');
+//let humidity = document.querySelector('.humidity');
+//let UVI = document.querySelector('.UVI');
+//let weekdayWeatherDisplay = document.querySelector('weekdayWeatherDisplay');
+
+
 console.log(searchBtn);
 const currentWeather = (cityName) => {
     console.log(cityName)
     // CAN I DRY THIS UP BY ASSIGNING VARIABLE NAMES TO API ID? CAN THIS HAVE HTTPS?
-    const getCurrentWeatherAPI = 'https://api.openweathermap.org/data/2.5/weather?q=' + cityName + '&appid=01491020703a0729a1904f9d2453e6f1'
+    let getCurrentWeatherAPI = 'https://api.openweathermap.org/data/2.5/weather?q=' + cityName + '&appid=' + weatherApiKey;
     console.log(getCurrentWeatherAPI);
 
     fetch(getCurrentWeatherAPI)
@@ -68,8 +75,8 @@ window.addEventListener('load', () => {
 });
 
 const getFullForecast = () => {
-    const currentLocationWeatherAPI = `http://api.openweathermap.org/data/2.5/onecall?units=imperial&lat=${lat}&` +
-        `lon=${lon}&appid=6d055e39ee237af35ca066f35474e9df`;
+    let currentLocationWeatherAPI = `http://api.openweathermap.org/data/2.5/onecall?units=imperial&lat=${lat}&` +
+        `lon=${lon}&appid=${weatherApiKey}`;
 
     fetch(currentLocationWeatherAPI)
         .then((response) => {
@@ -77,14 +84,44 @@ const getFullForecast = () => {
         })
         .then((data) => {
             console.log(data);
-            temperature.textContent = data.current.temp + '°F';
-            sum.textContent = data.current.weather[0].description;
-            // loc.textContent = data. + "," + data.sys.country;
-            windSpeed.textContent = data.current.wind_speed + 'mph';
-            humidity.textContent = data.current.humidity + '%';
-            UVI.textContent = data.current.uvi;
-            let icon1 = data.current.weather[0].icon;
-            icon.innerHTML =
-                `<img src="http://openweathermap.org/img/wn/${icon1}@2x.png" />`;
+            //first: we need to output the current weather
+            renderWeatherTemplate(data.current, weatherCurrent);
+
+            //second we need to output the 5 day forcast
+            for (let day = 0; day < data.daily.length; day++) {
+                renderWeatherTemplate(data.daily[day], weatherFiveDay);
+
+                //if more days available then we want break out
+                if (day > weatherDaysToForcast)
+                    break;
+            }
+
+            //third we need to save the city into local storage
+
+
         });
+}
+
+/**
+ * This will render the weather data into the targets weather container
+ * @param {*} data      weather API d+ata object containing any daily info
+ * @param {*} target    this is the HTML object that should be rendered into (ie: weather container)
+ */
+function renderWeatherTemplate(data, target) {
+    console.log('renderWeatherTemplate');
+    console.log(data);
+
+    //first make a clone of our template
+    let template = weatherTemplate.cloneNode(true);
+
+    //second: assign our data into our template
+    template.querySelector('.temperature').textContent = data.temp + '°F';
+    template.querySelector('.sum').textContent = data.weather[0].description;
+    template.querySelector('.windSpeed').textContent = data.wind_speed + 'mph';
+    template.querySelector('.humidity').textContent = data.humidity + '%';
+    template.querySelector('.UVI').textContent = data.uvi;
+    template.querySelector('.icon').innerHTML = '<img src="http://openweathermap.org/img/wn/' + data.weather[0].icon + '@2x.png" />';
+
+    //third: we need to copy our temlpate into our target
+    target.appendChild(template);
 }
