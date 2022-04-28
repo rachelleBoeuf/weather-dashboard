@@ -12,7 +12,7 @@ const currentWeather = (cityName) => {
     updateCityHistory(cityName);
 
     // CAN I DRY THIS UP BY ASSIGNING VARIABLE NAMES TO API ID? CAN THIS HAVE HTTPS?
-    let getCurrentWeatherAPI = 'https://api.openweathermap.org/data/2.5/weather?q=' + cityName + '&appid=' + weatherApiKey;
+    let getCurrentWeatherAPI = '//api.openweathermap.org/data/2.5/weather?q=' + cityName + '&appid=' + weatherApiKey;
     console.log(getCurrentWeatherAPI);
 
     fetch(getCurrentWeatherAPI)
@@ -69,7 +69,7 @@ window.addEventListener('load', () => {
 });
 
 const getFullForecast = () => {
-    let currentLocationWeatherAPI = `http://api.openweathermap.org/data/2.5/onecall?units=imperial&lat=${lat}&` +
+    let currentLocationWeatherAPI = `https://api.openweathermap.org/data/2.5/onecall?units=imperial&lat=${lat}&` +
         `lon=${lon}&appid=${weatherApiKey}`;
 
     fetch(currentLocationWeatherAPI)
