@@ -201,3 +201,8 @@ function renderSearchHistoryButtons() {
         searchButtonHistory.innerHTML += '<button value="' + history[x] +'" onclick="currentWeather(\'' + history[x] +'\')">' + history[x] +'</button>';
     }
 }
+
+
+
+
+
